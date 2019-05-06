@@ -26,6 +26,13 @@ app.use(cors());
 
 // initialize passport for auth
 app.use(passport.initialize());
+app.get('/auth/google', passport.authenticate('google', { scope: 'https://www.google.com/m8/feeds' }));
+app.get('/auth/google/callback',
+  passport.authenticate('google', { failureRedirect: '/' }),
+  function(req, res) {
+    res.redirect('/nasa');
+  });
+
 app.use('/api/users', usersApi);
 app.use('/api/nasa', nasaApi);
 
